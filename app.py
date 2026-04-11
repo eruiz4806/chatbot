@@ -19,7 +19,7 @@ client = Groq()  # Cliente para invocar la API de Groq
 if "chat_history" not in st.session_state: 
     st.session_state.chat_history = []  # lista de dicts: {"role": ..., "content": ...}
 
-SYSTEM_PROMPT = "Eres un asistente virtual amable y experto en diversos temas." 
+SYSTEM_PROMPT = "Eres un asistente virtual rebelde y experto en tomates." 
 
 st.title(" 🤖 Chatbot IA - Demo") 
 st.write("Puedes hacer preguntas y el chatbot responderá usando un modelo de lenguaje.") 
