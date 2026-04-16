@@ -19,16 +19,22 @@ client = Groq()  # Cliente para invocar la API de Groq
 if "chat_history" not in st.session_state: 
     st.session_state.chat_history = []  # lista de dicts: {"role": ..., "content": ...}
 
+MAX_HISTORY = 30
+st.session_state.chat_history = st.session_state.chat_history[-MAX_HISTORY:]
+
+MODEL_NAME = "llama-3.1-8b-instant"
+TEMPERATURE = 0.7
 SYSTEM_PROMPT = "Eres un asistente virtual amable y experto en ventas de equipos informáticos." 
 
-st.title(" 🤖 Chatbot IA - Demo") 
-st.write("Puedes hacer preguntas y el chatbot responderá usando un modelo de lenguaje.") 
+st.title(" 🤖 Chatbot de La Casita Informática - Demo") 
+st.write("Hola soy Vicky, en qué puedo ayudarte?") 
 
 for msg in st.session_state.chat_history: 
     with st.chat_message(msg["role"]): 
-        st.markdown(msg["content"])
+        st.markdown(f"**{msg['role'].capitalize()}:** {msg['content']}")
+        #st.markdown(msg["content"])
 
-user_input = st.chat_input("Escribe tu pregunta aquí...") 
+user_input = st.chat_input("Escribe aquí...") 
 
 if user_input: 
     # Mostrar el mensaje del usuario 
@@ -44,9 +50,9 @@ if user_input:
     # Llamar a la API **solo** si hay user_input (evita NameError)     
     try:         
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model=MODEL_NAME,
             messages=messages,
-            temperature=0.7,
+            temperature=TEMPERATURE,
         )         
         respuesta_texto = response.choices[0].message.content  # objeto, no dict     
     except Exception as e:         
